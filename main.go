@@ -18,7 +18,7 @@ func main() {
 
 	config := config.New()
 
-	client := sftp.New(*config)
+	client := sftp.New(config.SFTP)
 
 	defer client.Close()
 

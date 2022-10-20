@@ -7,7 +7,7 @@ import (
 	"net"
 	"os"
 	"path/filepath"
-	"poc/sftp-client/config"
+	sftpConfig "poc/sftp-client/config/sftp"
 	"strings"
 	"time"
 
@@ -16,9 +16,9 @@ import (
 )
 
 // New initialises SSH and SFTP clients and returns Client type to use.
-func New(config config.Config) *Client {
+func New(config sftpConfig.Config) *Client {
 	c := &Client{
-		config: config.SFTP,
+		config: config,
 	}
 
 	err := c.connect()
