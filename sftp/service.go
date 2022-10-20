@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
+	"log"
 	"net"
 	"os"
 	"path/filepath"
@@ -52,7 +53,12 @@ func (c *Client) connect() error {
 	var auth ssh.AuthMethod
 	auth = ssh.Password(c.config.Password)
 	if c.config.PrivateKey != "" {
-		signer, err := ssh.ParsePrivateKey([]byte(c.config.PrivateKey))
+		pk, err := os.ReadFile(c.config.PrivateKey) // required only if private key authentication is to be used
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		signer, err := ssh.ParsePrivateKey(pk)
 		if err != nil {
 			return fmt.Errorf("ssh parse private key: %w", err)
 		}

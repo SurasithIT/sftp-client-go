@@ -7,7 +7,6 @@ type Config struct {
 	Username          string
 	Password          string
 	PrivateKey        string
-	KeyExchanges      []string
 	RemotePath        string
 	ConnectionTimeout int
 }
