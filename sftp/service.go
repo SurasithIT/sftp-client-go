@@ -72,6 +72,9 @@ func (c *Client) connect() error {
 		},
 		HostKeyCallback: func(string, net.Addr, ssh.PublicKey) error { return nil },
 		Timeout:         time.Second * time.Duration(c.config.ConnectionTimeout),
+		Config: ssh.Config{
+			KeyExchanges: []string{"diffie-hellman-group1-sha1", "diffie-hellman-group-exchange-sha256"}, // optional
+		},
 	}
 
 	sshClient, err := ssh.Dial("tcp", c.config.Server, cfg)
