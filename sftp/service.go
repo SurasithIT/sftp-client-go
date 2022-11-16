@@ -198,3 +198,37 @@ func (c *Client) ListFiles(remoteDir string) ([]fs.FileInfo, error) {
 	}
 	return files, nil
 }
+
+func (c *Client) RemoveFile(remoteFilePath string) error {
+	fmt.Fprintf(os.Stdout, "Removing file [%s] ...\n\n", remoteFilePath)
+	err := c.connect()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect: %v\n", err)
+		return err
+	}
+	defer c.Close()
+
+	err = c.sftpClient.Remove(remoteFilePath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to remove file: %v\n", err)
+		return err
+	}
+	return nil
+}
+
+func (c *Client) RemoveDirectory(remoteDir string) error {
+	fmt.Fprintf(os.Stdout, "Removing directory [%s] ...\n\n", remoteDir)
+	err := c.connect()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect: %v\n", err)
+		return err
+	}
+	defer c.Close()
+
+	err = c.sftpClient.RemoveDirectory(remoteDir)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to remove dir: %v\n", err)
+		return err
+	}
+	return nil
+}
